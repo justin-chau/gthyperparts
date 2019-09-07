@@ -6,17 +6,17 @@
             A four character alphaneumeric code is recomended for the 
             project identifer.
         </p>
+        <div class="buttons">
+            <b-button class="is-primary" @click="$router.go(-1)">Back</b-button>
+        </div>
     </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import router from '../router'
 export default {
-    name: 'create-project',
-    data () {
-        return {
-
-        }
-    }
+    name: 'create-project'
 }
 </script>
 

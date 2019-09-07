@@ -15,14 +15,14 @@
                     <div class="control">
                         <b-taglist attached>
                             <b-tag rounded type="is-white">Assemblies</b-tag>
-                            <b-tag rounded type="is-info">{{project.num_of_assemblies}}</b-tag>
+                            <b-tag rounded type="is-info">{{project.project_num_assems}}</b-tag>
                         </b-taglist>
                     </div>
 
                     <div class="control">
                         <b-taglist attached>
                             <b-tag rounded type="is-white">Parts</b-tag>
-                            <b-tag rounded type="is-info">{{project.num_of_parts}}</b-tag>
+                            <b-tag rounded type="is-info">{{project.project_num_parts}}</b-tag>
                         </b-taglist>
                     </div>
                 </b-field>

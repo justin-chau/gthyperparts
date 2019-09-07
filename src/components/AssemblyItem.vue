@@ -3,7 +3,7 @@
         <div class="card-content">
             <div class="columns">
                 <div class="column is-10">
-                    <p class="title is-4 has-text-white">{{project_id}}-A-{{assembly.assem_id}}00</p>
+                    <p class="title is-4 has-text-white">{{assembly.assem_project}}-A-{{assembly.assem_id}}00</p>
                     <p class="subtitle is-6 has-text-white">{{assembly.assem_name}}</p>
                     <b-field grouped group-multiline>
                         <div class="control">
@@ -11,16 +11,25 @@
                                 <b-tag rounded type="is-white">Status</b-tag>
                                 <b-tag rounded type="is-info">{{assembly.assem_status}}</b-tag>
                             </b-taglist>
-                            
+                        </div>
+                        <div class="control">
+                            <b-taglist attached>
+                                <b-tag rounded type="is-white">Quantity</b-tag>
+                                <b-tag rounded type="is-info">{{assembly.assem_quantity}}</b-tag>
+                            </b-taglist>
                         </div>
                         <div class="control">
                             <b-taglist attached>
                                 <b-tag rounded type="is-white">Parent</b-tag>
-                                <b-tag rounded type="is-info">{{assembly.parent_assem | handleNone(project_id)}}</b-tag>
+                                <b-tag rounded type="is-info">{{getParent}}</b-tag>
                             </b-taglist>
-                            
                         </div>
-                        
+                        <div class="control">
+                            <b-taglist attached>
+                                <b-tag rounded type="is-white">Assigned</b-tag>
+                                <b-tag rounded type="is-info">{{getAssignedUser}}</b-tag>
+                            </b-taglist>
+                        </div>
                     </b-field>
                 </div>
                 <div class="column">
@@ -37,13 +46,20 @@
 <script>
 export default {
     name: "assembly-item",
-    props: ["assembly", "project_id"],
-    filters: {
-        handleNone: function(parent, project_id){
-            if(parent == 'none'){
+    props: ["assembly"],
+    computed: {
+        getAssignedUser: function() {
+            if(this.assembly.assem_assign == 'none'){
                 return 'None'
             } else {
-                return project_id + '-A-' + parent + '00'
+                return Object.values(this.$store.state.users.data).filter(user => user.user_id == this.assembly.assem_assign)[0].user_name
+            }
+        },
+        getParent: function(){
+            if(this.assembly.assem_parent == 'none'){
+                return 'None'
+            } else {
+                return this.assembly.assem_project + '-A-' + this.assembly.assem_parent + '00'
             }
         }
     }

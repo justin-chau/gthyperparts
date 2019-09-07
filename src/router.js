@@ -6,6 +6,8 @@ import EditProject from './views/EditProject'
 import ComponentList from './views/ComponentList'
 import UserList from './views/UserList'
 import CreateUser from './views/CreateUser'
+import CreatePart from './views/CreatePart'
+import CreateAssembly from './views/CreateAssembly'
 
 Vue.use(Router)
 
@@ -20,6 +22,16 @@ export default new Router({
       path: '/create-project',
       name: 'create-project',
       component: CreateProject
+    },
+    {
+      path: '/create-assembly/:project_id',
+      name: 'create-assembly',
+      component: CreateAssembly
+    },
+    {
+      path: '/create-part/:project_id',
+      name: 'create-part',
+      component: CreatePart
     },
     {
       path: '/edit-project/:project_id',

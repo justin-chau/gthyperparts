@@ -52,3 +52,9 @@ export default {
   @import "~bulma";
   @import "~buefy/src/scss/buefy";
 </style>
+
+<style scoped>
+  .section {
+    margin-top: 50px;
+  }
+</style>
