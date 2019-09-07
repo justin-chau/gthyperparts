@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        <h3>Assembly Detail</h3>
     </div>
 </template>
 
@@ -14,4 +14,3 @@ export default {
     }
 }
 </script>
-

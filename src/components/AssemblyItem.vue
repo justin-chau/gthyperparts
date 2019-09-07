@@ -1,31 +1,26 @@
 <template>
-    <div class="card">
+    <div class="card has-background-primary">
         <div class="card-content">
             <div class="columns">
                 <div class="column is-10">
-                    <p class="title is-4">{{project_id}}-P-{{part.parent_assem}}{{part.part_number}}</p>
-                    <p class="subtitle is-6">{{part.part_name}}</p>
+                    <p class="title is-4 has-text-white">{{project_id}}-A-{{assembly.assem_id}}00</p>
+                    <p class="subtitle is-6 has-text-white">{{assembly.assem_name}}</p>
                     <b-field grouped group-multiline>
                         <div class="control">
                             <b-taglist attached>
-                                <b-tag rounded type="is-dark">Status</b-tag>
-                                <b-tag rounded type="is-info">{{part.part_status}}</b-tag>
+                                <b-tag rounded type="is-white">Status</b-tag>
+                                <b-tag rounded type="is-info">{{assembly.assem_status}}</b-tag>
                             </b-taglist>
+                            
                         </div>
-
                         <div class="control">
                             <b-taglist attached>
-                                <b-tag rounded type="is-dark">Parent</b-tag>
-                                <b-tag rounded type="is-info">{{project_id}}-A-{{part.parent_assem}}00</b-tag>
+                                <b-tag rounded type="is-white">Parent</b-tag>
+                                <b-tag rounded type="is-info">{{assembly.parent_assem | handleNone(project_id)}}</b-tag>
                             </b-taglist>
+                            
                         </div>
-
-                        <div class="control">
-                            <b-taglist attached>
-                                <b-tag rounded type="is-dark">Assigned</b-tag>
-                                <b-tag rounded type="is-info">{{users | getName(part.part_assigned)}}</b-tag>
-                            </b-taglist>
-                        </div>
+                        
                     </b-field>
                 </div>
                 <div class="column">
@@ -41,13 +36,15 @@
 
 <script>
 export default {
-    name: "part-item",
-    props: ["part", "project_id", "users"],
+    name: "assembly-item",
+    props: ["assembly", "project_id"],
     filters: {
-        getName: function(users, user_id) {
-            var arr = users.filter(d => d.user_id == user_id)
-            
-            return arr[0].name
+        handleNone: function(parent, project_id){
+            if(parent == 'none'){
+                return 'None'
+            } else {
+                return project_id + '-A-' + parent + '00'
+            }
         }
     }
 }

@@ -1,12 +1,12 @@
 <template>
     <div>
-
+        <h3>User List</h3>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'assembly-item',
+    name: 'user-list',
     data () {
         return {
 
@@ -14,4 +14,3 @@ export default {
     }
 }
 </script>
-

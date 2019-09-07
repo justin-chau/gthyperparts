@@ -1,12 +1,12 @@
 <template>
     <div>
-        <h3>Create Part</h3>
+        <h3>Edit Project</h3>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'create-part',
+    name: 'edit-project',
     data () {
         return {
 
@@ -14,4 +14,3 @@ export default {
     }
 }
 </script>
-
