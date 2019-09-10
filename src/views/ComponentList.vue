@@ -3,9 +3,21 @@
         <p class="title is-3">Component List</p>
         <p class="subtitle is-5">All Parts and Assemblies in {{this.$route.params.project_id}} ({{getProjectName}})</p>
         <div class="buttons">
-            <b-button class="is-primary" tag="router-link" :to="{ name: 'create-assembly'}">Create a New Assembly</b-button>
-            <b-button class="is-info" tag="router-link" :to="{ name: 'create-part' }">Create a New Part</b-button>
+            <b-button class="is-primary"
+                @click="isAssemblyModalActive = true">
+                Create Assembly
+            </b-button>
+            <b-button class="is-info"
+                @click="isPartModalActive = true">
+                Create Part
+            </b-button>
         </div>
+        <b-modal :active.sync="isAssemblyModalActive" has-modal-card>
+            <create-assembly></create-assembly>
+        </b-modal>
+        <b-modal :active.sync="isPartModalActive" has-modal-card>
+            <create-part></create-part>
+        </b-modal>
         <div v-for="assembly in getSortedAssemblies" v-bind:key="assembly.id">
             <assembly-item v-bind:assembly="assembly"></assembly-item>
         </div>
@@ -18,13 +30,23 @@
 <script>
 import AssemblyItem from '../components/AssemblyItem'
 import PartItem from '../components/PartItem'
+import CreateAssembly from './CreateAssembly'
+import CreatePart from './CreatePart'
 import { mapState } from 'vuex'
 import router from '../router'
 export default {
     name: 'component-list',
     components: {
         PartItem,
-        AssemblyItem
+        AssemblyItem,
+        CreateAssembly,
+        CreatePart
+    },
+    data() {
+        return {
+            isAssemblyModalActive: false,
+            isPartModalActive: false
+        }
     },
     computed: {
         ...mapState(['assemblies', 'parts']),
@@ -43,7 +65,7 @@ export default {
         var projectCheck = Object.values(this.$store.state.projects.data).filter(project => project.project_id == this.$route.params.project_id)
 
         if (projectCheck === undefined || projectCheck.length == 0) {
-            router.push({path: '/'})
+            router.push({ name: 'project-list' })
         }
     },
     beforeRouteUpdate(to, from, next) {
@@ -52,6 +74,8 @@ export default {
 
         if (projectCheck === undefined || projectCheck.length == 0) {
             router.push({ name: 'project-list' })
+        } else {
+            next()
         }
     }
 }
