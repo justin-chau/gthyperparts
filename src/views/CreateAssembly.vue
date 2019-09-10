@@ -11,15 +11,15 @@
             </b-field>
 
             <b-field label="Assembly Name">
-                <b-input></b-input>
+                <b-input v-model="assem_name" placeholder="Enter a name"></b-input>
             </b-field>
 
             <b-field label="Assembly Quantity">
-                <b-input></b-input>
+                <b-input v-model="assem_quantity" placeholder="Enter a quantity"></b-input>
             </b-field>
 
             <b-field label="Assembly Status" style="width: auto">
-                <b-select expanded placeholder="Select a status">
+                <b-select v-model="assem_status" expanded placeholder="Select a status">
                     <option value="Design">Design</option>
                     <option value="Review">Review</option>
                     <option value="Manufacturing">Manufacturing</option>
@@ -28,25 +28,25 @@
             </b-field>
 
             <b-field label="Assembly Parent">
-                <b-select expanded placeholder="Select an assembly">
-                    <option>None</option>
-                    <option v-for="assembly in getSortedAssemblies" v-bind:key="assembly.id">
+                <b-select v-model="assem_parent" expanded placeholder="Select an assembly">
+                    <option value='none'>None</option>
+                    <option :value="assembly.assem_id" v-for="assembly in getSortedAssemblies" v-bind:key="assembly.id">
                         {{assembly.assem_id}} - {{assembly.assem_name}}
                     </option>
                 </b-select>
             </b-field>
 
             <b-field label="Assembly Assign">
-                <b-select expanded placeholder="Select a user">
-                    <option>None</option>
-                    <option v-for="user in users.data" v-bind:key="user.id">
-                        {{user.user_email}}
+                <b-select v-model="assem_assign" expanded placeholder="Select a user">
+                    <option value='none'>None</option>
+                    <option :value="user.user_id" v-for="user in users.data" v-bind:key="user.id">
+                        {{user.user_name}} - {{user.user_email}}
                     </option>
                 </b-select>
             </b-field>
 
             <b-field label="Notes">
-                <b-input maxlength="200" type="textarea"></b-input>
+                <b-input v-model="assem_notes" maxlength="200" type="textarea"></b-input>
             </b-field>
         </section>
         <footer class="modal-card-foot">
@@ -59,6 +59,7 @@
 <script>
 import { mapState } from 'vuex'
 import store from '../store/index'
+import { increment } from 'vuex-easy-firestore';
 export default {
     name: 'create-assembly',
     data() {
@@ -81,26 +82,29 @@ export default {
             var project_id = this.$route.params.project_id
             var next_assem_id = Object.values(this.$store.state.projects.data).filter(project => project.project_id == this.$route.params.project_id)[0].project_num_assems
             this.assem_id = next_assem_id 
-            var string_assem_id = ''
             if (next_assem_id.toString().length > 1) {
-                string_assem_id = next_assem_id.toString()
+                return project_id + '-A-' + next_assem_id + '00'
             } else {
-                string_assem_id = '0' + next_assem_id.toString()
+                return project_id + '-A-' + '0' + next_assem_id + '00'
             }
-            return project_id + '-A-' + string_assem_id + '00'
+            
         }
     },
     methods: {
         submitAssembly: function () {
             store.dispatch('assemblies/set', {
-                assem_id: '0' + this.assem_id.toString(),
+                assem_id: this.assem_id,
                 assem_project: this.$route.params.project_id,
-                assem_assign: 1,
-                assem_name: 'Test'
+                assem_assign: this.assem_assign,
+                assem_name: this.assem_name,
+                assem_status: this.assem_status,
+                assem_parent: this.assem_parent,
+                assem_notes: this.assem_notes,
+                assem_quantity: this.assem_quantity
             })
             store.dispatch('projects/set', {
                 id: Object.values(this.$store.state.projects.data).filter(project => project.project_id == this.$route.params.project_id)[0].id,
-                project_num_assems: this.assem_id + 1
+                project_num_assems: increment(1)
             })
             this.$parent.close()
         }

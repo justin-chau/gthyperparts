@@ -7,14 +7,9 @@
         </template>
 
         <template slot="start">
-            <b-navbar-dropdown hoverable label="Projects">
-                <b-navbar-item tag="router-link" :to="{ name: 'project-list' }">
-                    Project List
-                </b-navbar-item>
-                <b-navbar-item tag="router-link" :to="{ name: 'create-project' }">
-                    Create Project
-                </b-navbar-item>
-            </b-navbar-dropdown>
+            <b-navbar-item tag="router-link" :to="{ name: 'project-list' }">
+                Project List
+            </b-navbar-item>
 
             <b-navbar-dropdown hoverable label="Admin">
                 <b-navbar-item tag="router-link" :to="{ name: 'user-list' }">

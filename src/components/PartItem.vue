@@ -3,7 +3,7 @@
         <div class="card-content">
             <div class="columns">
                 <div class="column is-10">
-                    <p class="title is-4">{{part.part_project}}-P-{{part.part_parent}}{{part.part_id}}</p>
+                    <p class="title is-4">{{getPartIdentifier}}</p>
                     <p class="subtitle is-6">{{part.part_name}}</p>
                     <b-field grouped group-multiline>
                         <div class="control">
@@ -57,11 +57,31 @@ export default {
             return Object.values(this.$store.state.users.data).filter(user => user.user_id == this.part.part_assign)[0].user_name
         },
         getParent: function(){
-            if(this.part.part_parent == 'none'){
+            if (this.part.part_parent == 'none'){
                 return 'None'
             } else {
-                return this.part.part_project + '-A-' + this.part.part_parent + '00'
+                if (this.part.part_parent.toString().length > 1) {
+                    return this.part.part_project + '-P-' + this.part.part_parent + '00'
+                } else {
+                    return this.part.part_project + '-P-' + '0' + this.part.part_parent + '00'
+                }       
             }
+        },
+        getPartIdentifier: function() {
+            if (this.part.part_parent.toString().length > 1) {
+                if (this.part.part_id.toString().length > 1) {
+                    return this.part.part_project + '-P-' + this.part.part_parent + this.part.part_id
+                } else {
+                    return this.part.part_project + '-P-' + this.part.part_parent + '0' + this.part.part_id
+                }
+            } else {
+                if (this.part.part_id.toString().length > 1) {
+                    return this.part.part_project + '-P-' + '0' + this.part.part_parent + this.part.part_id
+                } else {
+                    return this.part.part_project + '-P-' + '0' + this.part.part_parent + '0' + this.part.part_id
+                }
+            }
+            
         }
     }
 }

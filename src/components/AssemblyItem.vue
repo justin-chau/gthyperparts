@@ -3,7 +3,7 @@
         <div class="card-content">
             <div class="columns">
                 <div class="column is-10">
-                    <p class="title is-4 has-text-white">{{assembly.assem_project}}-A-{{assembly.assem_id}}00</p>
+                    <p class="title is-4 has-text-white">{{getAssemblyIdentifier}}</p>
                     <p class="subtitle is-6 has-text-white">{{assembly.assem_name}}</p>
                     <b-field grouped group-multiline>
                         <div class="control">
@@ -55,11 +55,22 @@ export default {
                 return Object.values(this.$store.state.users.data).filter(user => user.user_id == this.assembly.assem_assign)[0].user_name
             }
         },
-        getParent: function(){
-            if(this.assembly.assem_parent == 'none'){
+        getParent: function() {
+            if (this.assembly.assem_parent == 'none'){
                 return 'None'
             } else {
-                return this.assembly.assem_project + '-A-' + this.assembly.assem_parent + '00'
+                if (this.assembly.assem_parent.toString().length > 1) {
+                    return this.assembly.assem_project + '-A-' + this.assembly.assem_parent + '00'
+                } else {
+                    return this.assembly.assem_project + '-A-' + '0' + this.assembly.assem_parent + '00'
+                }       
+            }
+        },
+        getAssemblyIdentifier: function() {
+            if (this.assembly.assem_id.toString().length > 1) {
+                return this.assembly.assem_project + '-A-' + this.assembly.assem_id + '00'
+            } else {
+                return this.assembly.assem_project + '-A-' + '0' + this.assembly.assem_id + '00'
             }
         }
     }
