@@ -1,5 +1,5 @@
 export default {
-    apiKey: "AIzaSyA6OzGAlL-JgYcWDJTDoCl2kZVWuGhq430",
+    apiKey: "",
     authDomain: "gthyperparts.firebaseapp.com",
     databaseURL: "https://gthyperparts.firebaseio.com",
     projectId: "gthyperparts",
